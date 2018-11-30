@@ -1,0 +1,40 @@
+version: '3.0'
+
+services:
+  jupyter:
+    build: ./jupyter
+    ports:
+     - "8888:8888"
+    environment:
+      JUPYTER_LAB_ENABLE: 'yes'
+      DATABASE_URL
+    volumes:
+     - ./data:/home/jovyan/work
+  commuter:
+    build: ./commuter
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+      # - VIRTUAL_HOST=commuter.somedomain.com
+      # - VIRTUAL_PORT=4000
+      #- LETSENCRYPT_HOST=commuter.somedomain.com
+      #- LETSENCRYPT_EMAIL=youremail@somedomain.com
+      - COMMUTER_STORAGE_BACKEND=local
+      #- COMMUTER_DISCOVERY_BACKEND=elasticsearch
+      #- COMMUTER_ES_HOST=elasticsearch:9200
+      - COMMUTER_PORT=4000
+      - COMMUTER_LOCAL_STORAGE_BASEDIRECTORY=/app/data
+      # - COMMUTER_S3_BASE_PREFIX
+      # - COMMUTER_S3_PATH_DELIMITER
+      # - COMMUTER_BUCKET
+      # - COMMUTER_S3_KEY
+      # - COMMUTER_S3_SECRET
+    volumes: 
+      - ./data:/app/data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_TAG:-6.5.1}
+    environment:
+     - ES_JAVA_OPTS=${ES_RAM:--Xmx4g -Xms4g}
+    ports: ['9200:9200']
