@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:10.14
 
 RUN apt-get update && apt-get install -y wget
 ENV DOCKERIZE_VERSION v0.6.1
@@ -12,11 +12,11 @@ WORKDIR /app
 ADD . /app
 
 # run installation/ build commands.
-RUN npm i -g @nteract/commuter
+RUN npm i -g @nteract/commuter@5.6.14
 
 ENV HOST=0.0.0.0
 ENV PORT=4000
 
 EXPOSE 4000
 
-CMD dockerize -wait tcp://elasticsearch:9200 -timeout 60s commuter
+CMD commuter

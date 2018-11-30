@@ -6,8 +6,8 @@ services:
     ports:
      - "8888:8888"
     environment:
-      JUPYTER_LAB_ENABLE: 'yes'
-      DATABASE_URL
+     - JUPYTER_LAB_ENABLE='yes'
+     - DATABASE_URL
     volumes:
      - ./data:/home/jovyan/work
   commuter:
