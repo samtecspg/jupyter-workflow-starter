@@ -44,7 +44,7 @@ services:
     build: ./airflow
     volumes:
      - ./data:/app/airflow
-    command: airflow scheduler
+    command: dockerize -wait tcp://airflow-web:8080 -timeout 60s airflow scheduler
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_TAG:-6.5.1}
     environment:
