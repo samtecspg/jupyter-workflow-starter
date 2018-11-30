@@ -33,6 +33,18 @@ services:
       # - COMMUTER_S3_SECRET
     volumes: 
       - ./data:/app/data
+  airflow-web:
+    build: ./airflow
+    ports:
+     - "8080:8080"
+    volumes:
+     - ./data:/app/airflow
+    command: bash -c "airflow initdb && airflow webserver -p 8080"
+  airflow-scheduler:
+    build: ./airflow
+    volumes:
+     - ./data:/app/airflow
+    command: airflow scheduler
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_TAG:-6.5.1}
     environment:
